@@ -16,7 +16,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
 
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file(var.ssh_key)
+    public_key = var.ssh_key
   }
 
   source_image_id = data.azurerm_shared_image.ubuntu-nginx.id
