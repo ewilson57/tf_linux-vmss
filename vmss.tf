@@ -100,3 +100,8 @@ resource "azurerm_lb_nat_pool" "natpool" {
   backend_port                   = 22
   frontend_ip_configuration_name = azurerm_lb.linux-vmss-lb.frontend_ip_configuration.0.name
 }
+
+output "public_ip_addr" {
+  value = azurerm_public_ip.linux-vmss-public-ip.ip_address
+}
+
