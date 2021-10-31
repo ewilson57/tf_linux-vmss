@@ -1,5 +1,5 @@
 data "azurerm_shared_image" "ubuntu-nginx" {
-  name                = "ubuntu-nginx"
+  name                = "ubuntu-20_04-nginx"
   gallery_name        = "shared_image_gallery_1"
   resource_group_name = "management-rg"
 }
