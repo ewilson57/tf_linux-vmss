@@ -66,8 +66,8 @@ resource "azurerm_lb" "linux-vmss-lb" {
 }
 
 resource "azurerm_lb_backend_address_pool" "linux-vmss-bpepool" {
-  loadbalancer_id     = azurerm_lb.linux-vmss-lb.id
-  name                = "bepool"
+  loadbalancer_id = azurerm_lb.linux-vmss-lb.id
+  name            = "bepool"
 }
 
 resource "azurerm_lb_probe" "linux-vmss-lb-probe" {
@@ -84,7 +84,7 @@ resource "azurerm_lb_rule" "linux-vmss-lb-rule" {
   protocol                       = "Tcp"
   frontend_port                  = var.application_port
   backend_port                   = var.application_port
-  backend_address_pool_id        = azurerm_lb_backend_address_pool.linux-vmss-bpepool.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.linux-vmss-bpepool.id]
   frontend_ip_configuration_name = azurerm_lb.linux-vmss-lb.frontend_ip_configuration.0.name
   probe_id                       = azurerm_lb_probe.linux-vmss-lb-probe.id
 }
