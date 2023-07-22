@@ -1,8 +1,8 @@
-data "azurerm_shared_image" "ubuntu-nginx" {
-  name                = "ubuntu-nginx"
-  gallery_name        = "shared_image_gallery_1"
-  resource_group_name = "management-rg"
-}
+# data "azurerm_shared_image" "ubuntu-nginx" {
+#   name                = "ubuntu-nginx"
+#   gallery_name        = "shared_image_gallery_1"
+#   resource_group_name = "management-rg"
+# }
 
 resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
   name                            = var.prefix
@@ -19,7 +19,14 @@ resource "azurerm_linux_virtual_machine_scale_set" "linux-vmss" {
     public_key = var.ssh_key
   }
 
-  source_image_id = data.azurerm_shared_image.ubuntu-nginx.id
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
+    version   = "latest"
+  }
+  
+  # source_image_id = data.azurerm_shared_image.ubuntu-nginx.id
 
   os_disk {
     storage_account_type = "Standard_LRS"
@@ -71,14 +78,14 @@ resource "azurerm_lb_backend_address_pool" "linux-vmss-bpepool" {
 }
 
 resource "azurerm_lb_probe" "linux-vmss-lb-probe" {
-  resource_group_name = azurerm_resource_group.linux-vmss.name
+  # resource_group_name = azurerm_resource_group.linux-vmss.name
   loadbalancer_id     = azurerm_lb.linux-vmss-lb.id
   name                = "http-probe"
   port                = var.application_port
 }
 
 resource "azurerm_lb_rule" "linux-vmss-lb-rule" {
-  resource_group_name            = azurerm_resource_group.linux-vmss.name
+  # resource_group_name            = azurerm_resource_group.linux-vmss.name
   loadbalancer_id                = azurerm_lb.linux-vmss-lb.id
   name                           = "http"
   protocol                       = "Tcp"
